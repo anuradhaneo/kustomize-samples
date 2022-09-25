@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-db
+spec:
+  selector:
+    matchLabels:
+      app: redis-db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: redis-db
+    spec:
+      containers:
+      - name: redis
+        image: redis:latest
+        ports:
+        - containerPort: 6379
+        readinessProbe:
+          periodSeconds: 5
+          tcpSocket:
+            port: 6379
+        livenessProbe:
+          periodSeconds: 5
+          tcpSocket:
+            port: 6379
+        resources:
+          limits:
+            memory: 256Mi
+            cpu: 125m
+          requests:
+            cpu: 70m
+            memory: 200Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-db
+spec:
+  type: NodePort
+  selector:
+    app: redis-db
+  ports:
+  - name: tls-redis
+    port: 6379
+    targetPort: 6379
+    nodePort: 32379
