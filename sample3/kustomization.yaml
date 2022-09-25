@@ -1,0 +1,8 @@
+resources:
+  - nginx.yaml
+
+namespace: test
+
+patchesStrategicMerge:
+  - set_replicas.yaml
+  - set_memory.yaml

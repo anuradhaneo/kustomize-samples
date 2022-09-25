@@ -1,0 +1,8 @@
+resources:
+  - nginx.yaml
+
+# common transformers
+commonLabels:
+  type: test
+namePrefix: test-
+namespace: test
