@@ -77,12 +77,16 @@ Patches are defined inline within the kustomization.yaml file
      kubectl describe deployment nginx -n test | grep Replicas:
     ```
 
-- Sample 9: Change specific values of specific kubernetes entities with Patching, and patches defined in separate files
+- Sample 9: Implement real world example using Overlays. Overlays implement the concept of configurations based on separate environments such as dev/statging and pod.
+Change the values as requered in sample9/overlays/<environment>/patches directory
   ```
-     kubectl apply -k sample8/
+     kubectl apply -k sample9/overlays/staging
      kubectl get all -n test
+     kubectl describe deployment redis -n test | grep Replicas:
 
-     kubectl describe deployment nginx -n test | grep Replicas:
+     kubectl apply -k sample9/overlays/prod
+     kubectl get all -n prod
+     kubectl describe deployment redis -n prod | grep Replicas:
     ```
 
 ## Prerequisites
@@ -90,5 +94,6 @@ Patches are defined inline within the kustomization.yaml file
  - A running K8S cluster with Kubectl context set properly
  - K8S test namespace
     ```
-     kubectl create namespace
+     kubectl create namespace test
+     kubectl create namespace prod
     ```
